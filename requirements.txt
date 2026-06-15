@@ -1,0 +1,12 @@
+discord.py==2.3.2
+python-dotenv
+asyncpg
+pillow
+imageio
+fastapi
+uvicorn
+pykakasi
+gTTS
+PyNaCl
+ffmpeg-python
+python-socketio[asyncio]==5.11.2
