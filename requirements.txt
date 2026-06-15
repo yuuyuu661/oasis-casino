@@ -1,5 +1,4 @@
-discord.py==2.3.2
-python-3.12.10
+discord.py==2.5.2
 asyncpg
 pillow
 imageio
@@ -10,3 +9,4 @@ gTTS
 PyNaCl
 ffmpeg-python
 python-socketio[asyncio]==5.11.2
+python-dotenv
