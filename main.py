@@ -1,21 +1,19 @@
 import os
-import discord
 import asyncio
+import discord
+import uvicorn
 
 from discord.ext import commands
 from dotenv import load_dotenv
 
 from db import Database
+from api import app
 
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-GUILD_ID = 1310885590094450739
-
 intents = discord.Intents.default()
-intents.guilds = True
-
 
 class CasinoBot(commands.Bot):
 
@@ -30,43 +28,32 @@ class CasinoBot(commands.Bot):
 
     async def setup_hook(self):
 
-        print("DB接続")
         await self.db.connect()
-
-        print("DB初期化")
         await self.db.init_db()
 
-        print("Cog読込")
         await self.load_extension(
             "cogs.casino"
         )
 
-        print("スラッシュ同期")
-
-        guild = discord.Object(
-            id=GUILD_ID
+        asyncio.create_task(
+            self.start_api()
         )
 
-        self.tree.copy_global_to(
-            guild=guild
+    async def start_api(self):
+
+        config = uvicorn.Config(
+            app,
+            host="0.0.0.0",
+            port=int(
+                os.getenv("PORT", 8000)
+            ),
+            log_level="info"
         )
 
-        await self.tree.sync(
-            guild=guild
-        )
+        server = uvicorn.Server(config)
 
-        print("起動完了")
-
+        await server.serve()
 
 bot = CasinoBot()
-
-
-@bot.event
-async def on_ready():
-
-    print(
-        f"LOGIN: {bot.user}"
-    )
-
 
 bot.run(TOKEN)
