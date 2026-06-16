@@ -77,8 +77,7 @@ class CasinoPanelView(
 
         url = (
             f"{CASINO_BASE_URL}"
-            f"/lobby"
-            f"?session={session_token}"
+            f"/?session={session_token}"
         )
 
         await interaction.followup.send(
