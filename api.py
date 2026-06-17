@@ -558,6 +558,10 @@ async def room_info(
         room_id
     )
 
+    game = OTHELLO_GAMES.get(
+        room_id
+    )
+
     return {
         "ok": True,
 
@@ -569,8 +573,13 @@ async def room_info(
             "rate_amount": room["rate_amount"],
         },
 
-        "black_user_id": room["black_user_id"],
-        "white_user_id": room["white_user_id"],
+        "black_user_id":
+            game["players"]["black"]
+            if game else None,
+
+        "white_user_id":
+            game["players"]["white"]
+            if game else None,
 
         "players": [
             {
@@ -947,10 +956,20 @@ async def janken_select(sid, data):
 @sio.event
 async def othello_move(sid, data):
 
+    print("OTHELLO MOVE =", data)
+
     room_id = data.get("room_id")
     x = data.get("x")
     y = data.get("y")
     user_id = str(data.get("user_id"))
+    print("PLAYERS =", players)
+    print("USER =", user_id)
+    print(
+        "PLAYER_COLOR =",
+        player_color,
+        "TURN =",
+        current_turn
+    )
 
     game = OTHELLO_GAMES.get(room_id)
 
