@@ -31,6 +31,16 @@ class Database:
                 max_size=10
             )
 
+            async with self.pool.acquire() as conn:
+
+                count = await conn.fetchval(
+                    "SELECT COUNT(*) FROM users"
+                )
+
+                print(
+                    f"USERS TABLE OK : {count}"
+                )
+
     # =========================
     # 初期化
     # =========================
