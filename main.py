@@ -7,7 +7,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 
 from db import Database
-from api import app
+from api import socket_app
 
 load_dotenv()
 
@@ -42,7 +42,7 @@ class CasinoBot(commands.Bot):
     async def start_api(self):
 
         config = uvicorn.Config(
-            app,
+            socket_app,
             host="0.0.0.0",
             port=int(
                 os.getenv("PORT", 8000)
