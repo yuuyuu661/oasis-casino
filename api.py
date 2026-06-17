@@ -962,8 +962,34 @@ async def othello_move(sid, data):
     x = data.get("x")
     y = data.get("y")
     user_id = str(data.get("user_id"))
+    room_id = data.get("room_id")
+    x = data.get("x")
+    y = data.get("y")
+    user_id = str(data.get("user_id"))
+
+    game = OTHELLO_GAMES.get(room_id)
+
+    if not game:
+        return
+
+    if game.get("finished"):
+        return
+
+    board = game["board"]
+    current_turn = game["turn"]
+    players = game["players"]
+
     print("PLAYERS =", players)
     print("USER =", user_id)
+
+    player_color = None
+
+    if players["black"] == user_id:
+        player_color = "black"
+
+    elif players["white"] == user_id:
+        player_color = "white"
+
     print(
         "PLAYER_COLOR =",
         player_color,
