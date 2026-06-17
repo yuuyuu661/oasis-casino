@@ -1103,11 +1103,6 @@ async def othello_move(sid, data):
 
         return
 
-    await db.update_othello_game(
-        room_id,
-        board,
-        game["turn"]
-    )
 
     await sio.emit(
         "othello:update",
