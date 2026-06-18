@@ -26,9 +26,12 @@ class Database:
         if self.pool is None:
 
             self.pool = await asyncpg.create_pool(
-                dsn=self.dsn,
-                min_size=1,
-                max_size=10
+               host="160.251.205.11",
+                port=5432,
+                database="oasisbot",
+                user="postgres",
+                password="Orewokoeteike1127",
+                ssl=False
             )
 
             async with self.pool.acquire() as conn:
